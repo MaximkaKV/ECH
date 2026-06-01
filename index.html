@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -16,220 +16,299 @@
       --text-muted: #64748b;
       --border: #bae6fd;
       --success: #10b981;
-      --radius: 14px;
-      --shadow: 0 4px 12px rgba(14, 165, 233, 0.08);
-      --shadow-sm: 0 2px 6px rgba(14, 165, 233, 0.05);
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --radius: 16px;
+      --shadow: 0 8px 24px rgba(14, 165, 233, 0.12);
+      --shadow-sm: 0 4px 12px rgba(14, 165, 233, 0.08);
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding-bottom: 40px; min-height: 100vh; }
+    
+    [data-theme="dark"] {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #e0f2fe;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --primary-light: #1e3a5f;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background: var(--bg); color: var(--text); padding-bottom: 40px; min-height: 100vh; transition: background 0.3s, color 0.3s; }
     
     /* HEADER */
     header {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: #fff;
-      padding: 28px 16px 24px;
-      text-align: center;
+      padding: 24px 16px 20px;
       position: sticky;
       top: 0;
       z-index: 20;
-      box-shadow: 0 4px 16px rgba(14, 165, 233, 0.25);
+      box-shadow: 0 4px 20px rgba(14, 165, 233, 0.3);
     }
-    header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.02em; }
-    header p { font-size: 0.95rem; opacity: 0.92; font-weight: 400; }
+    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .logo { display: flex; align-items: center; gap: 12px; }
+    .logo-icon { width: 42px; height: 42px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; backdrop-filter: blur(10px); }
+    .logo-text h1 { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; }
+    .logo-text p { font-size: 0.8rem; opacity: 0.9; }
+    .header-actions { display: flex; gap: 8px; }
+    .icon-btn { width: 40px; height: 40px; border: none; background: rgba(255,255,255,0.15); border-radius: 10px; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; backdrop-filter: blur(10px); }
+    .icon-btn:hover { background: rgba(255,255,255,0.25); transform: scale(1.05); }
+    .icon-btn svg { width: 22px; height: 22px; }
 
     /* NAVIGATION */
-    .nav {
-      display: flex;
-      gap: 8px;
-      padding: 12px 16px;
-      overflow-x: auto;
-      background: #fff;
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 88px;
-      z-index: 15;
-      -webkit-overflow-scrolling: touch;
-    }
+    .nav { display: flex; gap: 6px; padding: 12px; overflow-x: auto; background: var(--card); border-bottom: 1px solid var(--border); position: sticky; top: 92px; z-index: 15; -webkit-overflow-scrolling: touch; box-shadow: var(--shadow-sm); }
     .nav::-webkit-scrollbar { display: none; }
-    .nav-btn {
-      padding: 10px 14px;
-      border: none;
-      background: var(--primary-light);
-      color: var(--primary-dark);
-      border-radius: 20px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      white-space: nowrap;
-      cursor: pointer;
-      transition: all 0.2s;
-      flex-shrink: 0;
-    }
-    .nav-btn.active {
-      background: var(--primary);
-      color: #fff;
-      box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
-    }
+    .nav-btn { padding: 10px 14px; border: none; background: var(--primary-light); color: var(--primary-dark); border-radius: 22px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.3s; flex-shrink: 0; display: flex; align-items: center; gap: 6px; }
+    .nav-btn svg { width: 18px; height: 18px; }
+    .nav-btn.active { background: var(--primary); color: #fff; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.35); transform: translateY(-2px); }
 
     /* CONTENT */
     main { padding: 16px; max-width: 640px; margin: 0 auto; }
-    .section { display: none; animation: fadeIn 0.3s ease; }
+    .section { display: none; animation: slideIn 0.4s ease; }
     .section.active { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-    .card {
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-    }
-    .card-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 14px;
-      color: var(--primary-dark);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .card-title .icon { font-size: 1.3rem; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 20px; margin-bottom: 16px; box-shadow: var(--shadow); border: 1px solid var(--border); transition: transform 0.2s, box-shadow 0.2s; }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(14, 165, 233, 0.15); }
+    .card-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 16px; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+    .card-title svg { width: 28px; height: 28px; }
+
+    /* CIRCULAR PROGRESS */
+    .progress-container { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding: 16px; background: var(--primary-light); border-radius: 14px; }
+    .circular-progress { position: relative; width: 80px; height: 80px; }
+    .circular-progress svg { transform: rotate(-90deg); width: 80px; height: 80px; }
+    .progress-circle-bg { fill: none; stroke: rgba(255,255,255,0.4); stroke-width: 8; }
+    .progress-circle { fill: none; stroke: var(--success); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 0.6s ease; }
+    .progress-text-circle { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.1rem; font-weight: 700; color: var(--primary-dark); }
+    .progress-info h3 { font-size: 1rem; margin-bottom: 4px; }
+    .progress-info p { font-size: 0.85rem; color: var(--text-muted); }
 
     /* SELECT & TOGGLES */
-    select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      font-size: 1rem;
-      background: #fff;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230ea5e9' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      cursor: pointer;
-      margin-bottom: 12px;
-    }
-    .toggles { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
-    .toggle-row {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 12px;
-      background: var(--primary-light);
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .toggle-row:hover { background: #caf0f8; }
-    .toggle-row input { width: 20px; height: 20px; accent-color: var(--primary); cursor: pointer; }
-    .toggle-row span { font-size: 0.92rem; font-weight: 500; color: var(--primary-dark); }
-
-    /* PROGRESS */
-    .progress-wrap { margin: 12px 0 16px; }
-    .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--success), #34d399); width: 0%; transition: width 0.4s ease; border-radius: 4px; }
-    .progress-text { font-size: 0.82rem; color: var(--text-muted); text-align: right; margin-top: 6px; font-weight: 500; }
+    select { width: 100%; padding: 12px; border: 2px solid var(--border); border-radius: 12px; font-size: 1rem; background: var(--card); color: var(--text); appearance: none; cursor: pointer; margin-bottom: 16px; transition: border-color 0.2s; }
+    select:focus { outline: none; border-color: var(--primary); }
+    .toggles { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+    .toggle-row { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--primary-light); border-radius: 12px; cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
+    .toggle-row:hover { background: #caf0f8; transform: translateX(4px); }
+    .toggle-row input { width: 22px; height: 22px; accent-color: var(--primary); cursor: pointer; }
+    .toggle-row span { font-size: 0.92rem; font-weight: 500; color: var(--text); }
 
     /* STEPS */
     .step-list { list-style: none; }
-    .step-item {
-      display: flex; gap: 12px; padding: 14px 0;
-      border-bottom: 1px solid var(--border);
-      align-items: flex-start;
-      transition: background 0.2s;
-    }
-    .step-item:last-child { border-bottom: none; }
-    .step-item:hover { background: #f8fafc; border-radius: 8px; padding-left: 4px; padding-right: 4px; }
-    .checkbox {
-      width: 26px; height: 26px; border: 2px solid var(--border);
-      border-radius: 7px; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; flex-shrink: 0; margin-top: 2px; transition: all 0.2s;
-      background: #fff;
-    }
-    .step-item.completed .checkbox { background: var(--success); border-color: var(--success); }
-    .step-item.completed .checkbox::after { content: "✓"; color: #fff; font-weight: bold; font-size: 15px; }
-    .step-item.completed .step-text { color: var(--text-muted); text-decoration: line-through; opacity: 0.85; }
-    .step-text { font-size: 0.95rem; line-height: 1.55; }
-    .step-num { font-weight: 700; color: var(--primary); margin-right: 4px; min-width: 22px; display: inline-block; }
+    .step-item { display: flex; gap: 14px; padding: 16px; margin-bottom: 8px; background: var(--card); border-radius: 12px; border: 2px solid var(--border); align-items: flex-start; transition: all 0.3s; cursor: pointer; animation: fadeIn 0.4s ease; }
+    .step-item:hover { border-color: var(--primary); transform: translateX(4px); box-shadow: var(--shadow-sm); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .checkbox { width: 28px; height: 28px; border: 3px solid var(--border); border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s; background: var(--card); }
+    .step-item.completed .checkbox { background: var(--success); border-color: var(--success); animation: checkPop 0.3s ease; }
+    @keyframes checkPop { 0% { transform: scale(1); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+    .step-item.completed .checkbox::after { content: "✓"; color: #fff; font-weight: bold; font-size: 16px; }
+    .step-item.completed .step-text { color: var(--text-muted); text-decoration: line-through; opacity: 0.7; }
+    .step-text { font-size: 0.95rem; line-height: 1.5; flex: 1; }
+    .step-num { font-weight: 700; color: var(--primary); margin-right: 6px; display: inline-block; min-width: 24px; }
+
+    /* BADGES */
+    .badges-container { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .badge { padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; animation: badgePop 0.4s ease; }
+    @keyframes badgePop { 0% { transform: scale(0); } 80% { transform: scale(1.1); } 100% { transform: scale(1); } }
+    .badge-achievement { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #fff; }
+    .badge-info { background: var(--primary-light); color: var(--primary-dark); }
 
     /* LISTS */
     .info-list { list-style: none; }
-    .info-list li {
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.95rem;
-      line-height: 1.5;
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-    }
-    .info-list li:last-child { border-bottom: none; }
-    .info-list li::before { content: "•"; color: var(--primary); font-weight: bold; font-size: 1.2rem; line-height: 1.2; flex-shrink: 0; }
-    .info-list.numbered li::before { content: counter(item); color: var(--primary); font-weight: 700; font-size: 0.95rem; min-width: 20px; }
+    .info-list li { padding: 14px; margin-bottom: 8px; background: var(--card); border-radius: 10px; border-left: 4px solid var(--primary); display: flex; gap: 12px; align-items: flex-start; transition: transform 0.2s; }
+    .info-list li:hover { transform: translateX(4px); }
+    .info-list li::before { content: "•"; color: var(--primary); font-weight: bold; font-size: 1.5rem; line-height: 1; flex-shrink: 0; }
     .info-list.numbered { counter-reset: item; }
     .info-list.numbered li { counter-increment: item; }
+    .info-list.numbered li::before { content: counter(item); background: var(--primary); color: #fff; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; }
 
-    .location-card {
-      background: var(--primary-light);
-      border-radius: 10px;
-      padding: 14px;
-      margin-bottom: 10px;
-      border-left: 4px solid var(--primary);
-    }
-    .location-card strong { color: var(--primary-dark); display: block; margin-bottom: 4px; }
+    /* LOCATION CARDS */
+    .location-card { background: linear-gradient(135deg, var(--primary-light), rgba(224, 242, 254, 0.6)); border-radius: 12px; padding: 16px; margin-bottom: 12px; border-left: 5px solid var(--primary); transition: transform 0.2s; }
+    .location-card:hover { transform: scale(1.02); }
+    .location-card strong { color: var(--primary-dark); display: block; margin-bottom: 6px; font-size: 1.05rem; }
+    .location-card p { font-size: 0.9rem; color: var(--text); line-height: 1.5; }
+
+    /* QUICK CONTACTS */
+    .quick-contacts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
+    .contact-btn { padding: 14px; border: none; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; border-radius: 12px; font-weight: 600; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; transition: all 0.3s; text-decoration: none; }
+    .contact-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(14, 165, 233, 0.35); }
+    .contact-btn svg { width: 28px; height: 28px; }
+    .contact-btn span { font-size: 0.85rem; }
+
+    /* FAQ */
+    .faq-item { margin-bottom: 10px; border-radius: 12px; overflow: hidden; border: 2px solid var(--border); }
+    .faq-question { padding: 16px; background: var(--card); cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; transition: background 0.2s; }
+    .faq-question:hover { background: var(--primary-light); }
+    .faq-question svg { width: 20px; height: 20px; transition: transform 0.3s; }
+    .faq-item.active .faq-question svg { transform: rotate(180deg); }
+    .faq-answer { padding: 0 16px; max-height: 0; overflow: hidden; transition: all 0.3s ease; background: var(--card); }
+    .faq-item.active .faq-answer { padding: 16px; max-height: 500px; }
+    .faq-answer p { color: var(--text-muted); line-height: 1.6; }
+
+    /* EVENTS */
+    .event-card { background: linear-gradient(135deg, var(--primary-light), rgba(255,255,255,0.5)); border-radius: 12px; padding: 16px; margin-bottom: 12px; border-left: 5px solid var(--warning); display: flex; gap: 14px; align-items: flex-start; }
+    .event-date { background: var(--primary); color: #fff; padding: 10px; border-radius: 10px; text-align: center; min-width: 60px; }
+    .event-date .day { font-size: 1.5rem; font-weight: 700; display: block; line-height: 1; }
+    .event-date .month { font-size: 0.8rem; opacity: 0.9; }
+    .event-info h4 { margin-bottom: 4px; color: var(--primary-dark); }
+    .event-info p { font-size: 0.9rem; color: var(--text-muted); }
+
+    /* MAP PLACEHOLDER */
+    .map-container { background: linear-gradient(135deg, #e0f2fe, #f0f9ff); border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 16px; border: 2px dashed var(--primary); }
+    .map-placeholder { height: 200px; background: rgba(14, 165, 233, 0.1); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 12px; color: var(--primary); }
+    .map-placeholder svg { width: 60px; height: 60px; opacity: 0.5; }
+
+    /* GALLERY */
+    .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .gallery-item { aspect-ratio: 4/3; background: linear-gradient(135deg, var(--primary-light), var(--primary)); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 600; cursor: pointer; transition: all 0.3s; overflow: hidden; position: relative; }
+    .gallery-item:hover { transform: scale(1.05); box-shadow: var(--shadow); }
+    .gallery-item svg { width: 40px; height: 40px; opacity: 0.8; }
 
     /* BUTTONS */
-    .actions { display: flex; gap: 10px; margin-top: 16px; }
-    .btn {
-      flex: 1; padding: 12px; border: none; border-radius: 10px;
-      font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
-    }
-    .btn:active { transform: scale(0.98); }
+    .actions { display: flex; gap: 10px; margin-top: 20px; }
+    .btn { flex: 1; padding: 14px; border: none; border-radius: 12px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn:active { transform: scale(0.97); }
     .btn-reset { background: #fee2e2; color: #dc2626; }
     .btn-reset:hover { background: #fecaca; }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3); }
+    .btn-primary:hover { box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4); }
 
-    .hint { font-size: 0.82rem; color: var(--text-muted); text-align: center; margin-top: 20px; line-height: 1.5; }
-    .badge {
-      display: inline-block; background: var(--primary); color: #fff;
-      font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; margin-left: 8px; vertical-align: middle;
+    /* CONFETTI CANVAS */
+    #confetti-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1000; }
+
+    /* WELCOME TOUR */
+    .tour-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .tour-overlay.active { display: flex; }
+    .tour-card { background: var(--card); border-radius: 16px; padding: 24px; max-width: 400px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); animation: tourPop 0.4s ease; }
+    @keyframes tourPop { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    .tour-card h3 { margin-bottom: 12px; color: var(--primary); font-size: 1.3rem; }
+    .tour-card p { color: var(--text-muted); margin-bottom: 20px; line-height: 1.6; }
+    .tour-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 20px; }
+    .tour-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: all 0.3s; }
+    .tour-dot.active { background: var(--primary); width: 24px; border-radius: 4px; }
+    .tour-btn { background: var(--primary); color: #fff; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 600; cursor: pointer; margin: 0 4px; }
+    .tour-btn.secondary { background: var(--border); color: var(--text); }
+
+    .hint { font-size: 0.82rem; color: var(--text-muted); text-align: center; margin-top: 20px; line-height: 1.5; padding: 12px; background: var(--primary-light); border-radius: 10px; }
+
+    /* ACHIEVEMENTS POPUP */
+    .achievement-popup { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(100px); background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #fff; padding: 16px 24px; border-radius: 14px; box-shadow: 0 8px 32px rgba(251, 191, 36, 0.4); z-index: 1500; display: flex; align-items: center; gap: 12px; transition: transform 0.5s ease; }
+    .achievement-popup.show { transform: translateX(-50%) translateY(0); }
+    .achievement-popup svg { width: 32px; height: 32px; }
+    .achievement-popup div strong { display: block; font-size: 0.9rem; }
+    .achievement-popup div span { font-size: 0.8rem; opacity: 0.9; }
+
+    @media (max-width: 480px) {
+      .quick-contacts { grid-template-columns: 1fr; }
+      .gallery { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- HEADER -->
   <header>
-    <h1>👋 Добро пожаловать в Электротех</h1>
-    <p>Ваш цифровой помощник для быстрой адаптации</p>
+    <div class="header-top">
+      <div class="logo">
+        <div class="logo-icon">🏭</div>
+        <div class="logo-text">
+          <h1>Электротех</h1>
+          <p>Добро пожаловать в команду!</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" id="themeToggle" title="Тёмная тема">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+        </button>
+        <button class="icon-btn" id="tourBtn" title="Как пользоваться">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </button>
+      </div>
+    </div>
   </header>
 
+  <!-- NAVIGATION -->
   <nav class="nav">
-    <button class="nav-btn active" data-section="onboarding">📋 Устройство на работу</button>
-    <button class="nav-btn" data-section="docs"> Документы</button>
-    <button class="nav-btn" data-section="union"> Профсоюз</button>
-    <button class="nav-btn" data-section="canteen">🍽 Столовые</button>
-    <button class="nav-btn" data-section="social"> Социальная сфера</button>
+    <button class="nav-btn active" data-section="onboarding">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+      Устройство
+    </button>
+    <button class="nav-btn" data-section="docs">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+      Документы
+    </button>
+    <button class="nav-btn" data-section="union">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+      Профсоюз
+    </button>
+    <button class="nav-btn" data-section="canteen">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+      Столовые
+    </button>
+    <button class="nav-btn" data-section="social">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+      Соцсфера
+    </button>
+    <button class="nav-btn" data-section="contacts">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+      Контакты
+    </button>
+    <button class="nav-btn" data-section="map">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0121 18.382V7.618a1 1 0 01-.447-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+      Карта
+    </button>
   </nav>
 
   <main>
     <!-- РАЗДЕЛ 1: УСТРОЙСТВО НА РАБОТУ -->
     <section id="onboarding" class="section active">
       <div class="card">
-        <div class="card-title"><span class="icon"></span> Пошаговый чек-лист трудоустройства</div>
+        <div class="card-title">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+          Пошаговый чек-лист
+        </div>
+
+        <div class="badges-container" id="badgesContainer"></div>
+
+        <div class="progress-container">
+          <div class="circular-progress">
+            <svg>
+              <circle class="progress-circle-bg" cx="40" cy="40" r="36"></circle>
+              <circle class="progress-circle" cx="40" cy="40" r="36" stroke-dasharray="226.2" stroke-dashoffset="226.2"></circle>
+            </svg>
+            <div class="progress-text-circle" id="progressPercent">0%</div>
+          </div>
+          <div class="progress-info">
+            <h3>Ваш прогресс</h3>
+            <p id="progressDetails">0 из 0 шагов выполнено</p>
+          </div>
+        </div>
+
         <select id="dirSelect"></select>
         
         <div class="toggles">
-          <label class="toggle-row"><input type="checkbox" id="tog-trainee"><span>📜 Есть ученический договор (п. 16)</span></label>
-          <label class="toggle-row"><input type="checkbox" id="tog-piecework"><span>⚙️ Сдельная оплата труда (п. 18)</span></label>
-          <label class="toggle-row"><input type="checkbox" id="tog-military"><span>🪖 Военнообязанный / призывник (п. 19/17)</span></label>
-        </div>
-
-        <div class="progress-wrap">
-          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-          <div class="progress-text" id="progressText">Выполнено: 0 / 0</div>
+          <label class="toggle-row">
+            <input type="checkbox" id="tog-trainee">
+            <span>📜 Есть ученический договор (п. 16)</span>
+          </label>
+          <label class="toggle-row">
+            <input type="checkbox" id="tog-piecework">
+            <span>⚙️ Сдельная оплата труда (п. 18)</span>
+          </label>
+          <label class="toggle-row">
+            <input type="checkbox" id="tog-military">
+            <span>🪖 Военнообязанный / призывник</span>
+          </label>
         </div>
 
         <ul class="step-list" id="stepList"></ul>
 
         <div class="actions">
-          <button class="btn btn-reset" id="resetBtn">🔄 Сбросить прогресс</button>
+          <button class="btn btn-reset" id="resetBtn">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+            Сбросить прогресс
+          </button>
         </div>
       </div>
     </section>
@@ -237,26 +316,32 @@
     <!-- РАЗДЕЛ 2: ДОКУМЕНТЫ -->
     <section id="docs" class="section">
       <div class="card">
-        <div class="card-title"><span class="icon">📄</span> Документы для трудоустройства</div>
+        <div class="card-title">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          Документы для трудоустройства
+        </div>
         <ul class="info-list">
-          <li>Паспорт</li>
+          <li>Паспорт гражданина РФ</li>
           <li>СНИЛС</li>
           <li>ИНН</li>
-          <li>Трудовая книжка</li>
+          <li>Трудовая книжка или СТД-Р</li>
           <li>Диплом об образовании</li>
           <li>Военный билет (для военнообязанных)</li>
           <li>Реквизиты банковского счёта</li>
           <li>Флюорография или результаты медосмотра</li>
           <li>Фото 3×4 — 2 шт.</li>
         </ul>
-        <p class="hint">💡 Подготовьте документы заранее. Оригиналы сверяются на месте, копии остаются в личном деле.</p>
+        <div class="hint">💡 Подготовьте документы заранее. Оригиналы сверяются на месте, копии остаются в личном деле.</div>
       </div>
     </section>
 
     <!-- РАЗДЕЛ 3: ПРОФСОЮЗ -->
     <section id="union" class="section">
       <div class="card">
-        <div class="card-title"><span class="icon">🤝</span> Профсоюзная организация</div>
+        <div class="card-title">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+          Профсоюзная организация
+        </div>
         <ul class="info-list numbered">
           <li>Представительство и защита социально-трудовых прав</li>
           <li>Организация культурно-массовых и спортивных мероприятий</li>
@@ -265,51 +350,157 @@
           <li>Волонтёрские и благотворительные мероприятия</li>
           <li>Корпоративные скидки у партнёров</li>
         </ul>
-        <p class="hint"> Каб. 122, «Свечка» администрации. Вступительные взносы — 1% от зарплаты.</p>
+        <div class="hint">📍 Каб. 122, «Свечка» администрации. Вступительные взносы — 1% от зарплаты.</div>
       </div>
     </section>
 
     <!-- РАЗДЕЛ 4: СТОЛОВЫЕ -->
     <section id="canteen" class="section">
       <div class="card">
-        <div class="card-title"><span class="icon">🍽</span> Столовые на территории завода</div>
+        <div class="card-title">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          Столовые на территории завода
+        </div>
         <div class="location-card">
-          <strong> Столовая №1</strong>
-          10 цех, 2-й этаж
+          <strong>🏭 Столовая №1</strong>
+          <p>10 цех, 2-й этаж<br>Режим работы: 07:00–19:00</p>
         </div>
         <div class="location-card">
           <strong>🏢 Столовая №2</strong>
-          48 цех, 3-й этаж
+          <p>48 цех, 3-й этаж<br>Режим работы: 07:00–19:00</p>
         </div>
         <div class="location-card">
           <strong>🏢 Столовая №3 (Административная)</strong>
-          За территорией, справа от «Заводоуправления» (2-й и 3-й этажи)
+          <p>За территорией, справа от «Заводоуправления» (2-й и 3-й этажи)<br>Режим работы: 08:00–18:00</p>
         </div>
-        <p class="hint"> Режим работы: 07:00–19:00. Обед: 12:00–14:00. Оплата картой/наличными.</p>
+        <div class="hint">💳 Оплата картой/наличными. Обед: 12:00–14:00. Вегетарианское меню — по запросу.</div>
       </div>
     </section>
 
     <!-- РАЗДЕЛ 5: СОЦИАЛЬНАЯ СФЕРА -->
     <section id="social" class="section">
       <div class="card">
-        <div class="card-title"><span class="icon">🎉</span> Социальная сфера и льготы</div>
+        <div class="card-title">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+          Социальная сфера и льготы
+        </div>
         <ul class="info-list numbered">
-          <li>Санаторно-курортное лечение для сотрудников с вредными условиями труда и предпенсионного возраста (по результатам периодического осмотра)</li>
-          <li>Отдых на Черноморском побережье летом для работников и членов семей со скидкой 10 000 руб. каждому</li>
-          <li>Экскурсионные и корпоративные поездки по городам России (через Профсоюз)</li>
-          <li>Корпоративные мероприятия: День завода, 8 Марта, 23 Февраля, День семьи, любви и верности, День Машиностроителя, Новый год, соревнования по рыбной ловле, турслёты</li>
-          <li>Полная оплата тренажёрного зала, тренировок по настольному теннису, футболу, волейболу. Спортивные мероприятия с ценными призами</li>
-          <li>Билеты в театр, кино, на каток, в зоопарк, спа-комплексы со скидкой (Профсоюз)</li>
+          <li>Санаторно-курортное лечение для сотрудников с вредными условиями труда и предпенсионного возраста</li>
+          <li>Отдых на Черноморском побережье летом со скидкой 10 000 руб. для работника и члена семьи</li>
+          <li>Экскурсионные и корпоративные поездки по городам России</li>
+          <li>Корпоративные мероприятия: День завода, 8 Марта, 23 Февраля, День семьи, День Машиностроителя, Новый год</li>
+          <li>Полная оплата тренажёрного зала, тренировок по настольному теннису, футболу, волейболу</li>
+          <li>Билеты в театр, кино, на каток, в зоопарк, спа-комплексы со скидкой</li>
           <li>Билеты на футбольные матчи со скидкой</li>
           <li>Производственные соревнования с ценными призами</li>
         </ul>
-        <p class="hint">📞 Вопросы по льготам: каб. 122 (Профсоюз) или отдел социальных программ.</p>
+        <div class="hint">📞 Вопросы по льготам: каб. 122 (Профсоюз) или отдел социальных программ.</div>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 6: КОНТАКТЫ -->
+    <section id="contacts" class="section">
+      <div class="card">
+        <div class="card-title">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+          Быстрые контакты
+        </div>
+        <div class="quick-contacts">
+          <a href="tel:+74951234567" class="contact-btn">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+            <span>Отдел кадров<br><small>вн. 118</small></span>
+          </a>
+          <a href="tel:+74951234568" class="contact-btn">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+            <span>Медпункт<br><small>вн. 105</small></span>
+          </a>
+          <a href="tel:+74951234569" class="contact-btn">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            <span>Служба безопасности<br><small>вн. 554</small></span>
+          </a>
+          <a href="tel:112" class="contact-btn" style="background: linear-gradient(135deg, #ef4444, #dc2626);">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+            <span>Экстренные службы<br><small>112</small></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          Часто задаваемые вопросы
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Когда выплачивают зарплату?
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+          <div class="faq-answer"><p>Аванс — 20 числа, зарплата — 5 числа следующего месяца. Если дата выпадает на выходной — выплата в последний рабочий день перед ним.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Как оформить отпуск?
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+          <div class="faq-answer"><p>Напишите заявление за 2 недели до желаемой даты. Согласуйте с руководителем и передайте в отдел кадров (каб. 118).</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Где получить пропуск?
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+          <div class="faq-answer"><p>После оформления всех документов получите заявку в каб. 118, затем обратитесь в «Бюро пропусков» на Центральной проходной.</p></div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">
+            Можно ли взять больничный?
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+          <div class="faq-answer"><p>Обратитесь в медпункт (каб. 105) или в поликлинику по месту прикрепления. Больничный лист передайте в отдел кадров в течение 6 месяцев.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 7: КАРТА -->
+    <section id="map" class="section">
+      <div class="card">
+        <div class="card-title">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0121 18.382V7.618a1 1 0 01-.447-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+          Схема завода
+        </div>
+        <div class="map-container">
+          <div class="map-placeholder">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0121 18.382V7.618a1 1 0 01-.447-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+            <p>Интерактивная карта в разработке<br><small>Скоро здесь появится схема корпусов</small></p>
+          </div>
+        </div>
+        <div class="hint">📍 Основные точки: проходная (центр), административный корпус (справа), производственные цеха (10, 48, 56)</div>
       </div>
     </section>
   </main>
 
+  <!-- CONFETTI CANVAS -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- WELCOME TOUR OVERLAY -->
+  <div class="tour-overlay" id="tourOverlay">
+    <div class="tour-card">
+      <h3 id="tourTitle">Добро пожаловать!</h3>
+      <p id="tourText">Это ваше приложение для быстрой адаптации. Давайте покажем, как им пользоваться.</p>
+      <div class="tour-dots" id="tourDots"></div>
+      <button class="tour-btn" id="tourNext">Далее →</button>
+      <button class="tour-btn secondary" id="tourSkip">Пропустить</button>
+    </div>
+  </div>
+
+  <!-- ACHIEVEMENT POPUP -->
+  <div class="achievement-popup" id="achievementPopup">
+    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path></svg>
+    <div><strong id="achievementTitle">Достижение!</strong><span id="achievementText">Вы выполнили 5 шагов</span></div>
+  </div>
+
   <script>
-    //  ДАННЫЕ: Устройство на работу
+    //  ДАННЫЕ
     const STEPS_PROD = [
       {t:"Напишите заявление для трудоустройства: для подразделений 104, 266, 267 – каб.222 (свечка администрации). Для производственных подразделений у специалиста по кадрам в цехе;", c:null},
       {t:"Подпишите заявление у руководителя подразделения и директора по производству;", c:null},
@@ -369,15 +560,15 @@
     const DIRECTORATES = {
       prod: { name: "Дирекция по производству", steps: STEPS_PROD },
       tech: { name: "Техническая дирекция", steps: STEPS_OTHER },
-      ops: { name: "Дирекция по эксплуатации и безопасности производственной деятельности", steps: STEPS_OTHER },
-      quality: { name: "Дирекция по развитию производственной системы и качеству", steps: STEPS_OTHER },
+      ops: { name: "Дирекция по эксплуатации", steps: STEPS_OTHER },
+      quality: { name: "Дирекция по качеству", steps: STEPS_OTHER },
       comm: { name: "Коммерческая дирекция", steps: STEPS_OTHER },
       fin: { name: "Дирекция по экономике и финансам", steps: STEPS_OTHER },
-      hr: { name: "Дирекция по управлению персоналом и трансформации", steps: STEPS_OTHER },
-      sec: { name: "Дирекция по безопасности и защите информации", steps: STEPS_OTHER }
+      hr: { name: "Дирекция по управлению персоналом", steps: STEPS_OTHER },
+      sec: { name: "Дирекция по безопасности", steps: STEPS_OTHER }
     };
 
-    // 🎨 Навигация
+    // NAVIGATION
     const navBtns = document.querySelectorAll('.nav-btn');
     const sections = document.querySelectorAll('.section');
     navBtns.forEach(btn => {
@@ -389,17 +580,22 @@
       };
     });
 
-    // 📋 Логика чек-листа
+    // CHECKLIST LOGIC
     let currentDir = 'prod';
     let checkedState = {};
     const dirSelect = document.getElementById('dirSelect');
     const stepList = document.getElementById('stepList');
-    const progressFill = document.getElementById('progressFill');
-    const progressText = document.getElementById('progressText');
+    const progressCircle = document.querySelector('.progress-circle');
+    const progressPercent = document.getElementById('progressPercent');
+    const progressDetails = document.getElementById('progressDetails');
     const togTrainee = document.getElementById('tog-trainee');
     const togPiecework = document.getElementById('tog-piecework');
     const togMilitary = document.getElementById('tog-military');
     const resetBtn = document.getElementById('resetBtn');
+    const badgesContainer = document.getElementById('badgesContainer');
+
+    const circumference = 2 * Math.PI * 36;
+    progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
 
     Object.entries(DIRECTORATES).forEach(([key, val]) => {
       const opt = document.createElement('option');
@@ -419,12 +615,14 @@
       togPiecework.checked = conds.piecework || false;
       togMilitary.checked = conds.military || false;
       render();
+      checkAchievements();
     }
 
     function saveState() {
       localStorage.setItem(`check_${currentDir}`, JSON.stringify(checkedState));
       localStorage.setItem(`conds_${currentDir}`, JSON.stringify(getConditions()));
       updateProgress();
+      checkAchievements();
     }
 
     function updateProgress() {
@@ -432,8 +630,31 @@
       const conds = getConditions();
       const visible = steps.filter(s => !s.c || conds[s.c]);
       const done = visible.filter((_, i) => checkedState[steps.indexOf(_)]).length;
-      progressFill.style.width = `${visible.length ? (done/visible.length)*100 : 0}%`;
-      progressText.textContent = `Выполнено: ${done} / ${visible.length}`;
+      const percent = visible.length ? Math.round((done/visible.length)*100) : 0;
+      
+      const offset = circumference - (percent / 100) * circumference;
+      progressCircle.style.strokeDashoffset = offset;
+      progressPercent.textContent = `${percent}%`;
+      progressDetails.textContent = `${done} из ${visible.length} шагов выполнено`;
+
+      if (percent === 100 && visible.length > 0) {
+        fireConfetti();
+      }
+    }
+
+    function checkAchievements() {
+      const steps = DIRECTORATES[currentDir].steps;
+      const conds = getConditions();
+      const visible = steps.filter(s => !s.c || conds[s.c]);
+      const done = visible.filter((_, i) => checkedState[steps.indexOf(_)]).length;
+      
+      const badges = [];
+      if (done >= 5) badges.push({icon:'🎯', text:'Первые 5 шагов!'});
+      if (done >= 10) badges.push({icon:'🔥', text:'Полпути пройдено!'});
+      if (done >= 20) badges.push({icon:'⭐', text:'Почти финиш!'});
+      if (done === visible.length && visible.length > 0) badges.push({icon:'🏆', text:'Все шаги выполнены!'});
+
+      badgesContainer.innerHTML = badges.map(b => `<span class="badge badge-achievement">${b.icon} ${b.text}</span>`).join('');
     }
 
     function render() {
@@ -471,6 +692,154 @@
       if(confirm('Сбросить прогресс для этой дирекции?')) { checkedState = {}; saveState(); render(); }
     };
 
+    // FAQ
+    document.querySelectorAll('.faq-question').forEach(q => {
+      q.onclick = () => {
+        const item = q.parentElement;
+        item.classList.toggle('active');
+      };
+    });
+
+    // DARK THEME
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    
+    themeToggle.onclick = () => {
+      const current = document.documentElement.getAttribute('data-theme');
+      const next = current === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+    };
+
+    // CONFETTI
+    function fireConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      
+      const particles = [];
+      const colors = ['#0ea5e9', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'];
+      
+      for (let i = 0; i < 150; i++) {
+        particles.push({
+          x: canvas.width / 2,
+          y: canvas.height / 2,
+          vx: (Math.random() - 0.5) * 15,
+          vy: (Math.random() - 0.5) * 15 - 5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          size: Math.random() * 8 + 4,
+          life: 100
+        });
+      }
+      
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let active = false;
+        
+        particles.forEach(p => {
+          if (p.life > 0) {
+            active = true;
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vy += 0.3;
+            p.life--;
+            ctx.fillStyle = p.color;
+            ctx.fillRect(p.x, p.y, p.size, p.size);
+          }
+        });
+        
+        if (active) requestAnimationFrame(animate);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+      
+      animate();
+    }
+
+    // WELCOME TOUR
+    const tourSteps = [
+      {title: 'Добро пожаловать!', text: 'Это ваше приложение для быстрой адаптации на заводе. Здесь вы найдёте всю необходимую информацию.'},
+      {title: 'Чек-лист', text: 'Отмечайте выполненные шаги — прогресс сохраняется автоматически. При 100% завершении вас ждёт сюрприз!'},
+      {title: 'Разделы', text: 'Переключайтесь между разделами: документы, профсоюз, столовые, контакты и карта.'},
+      {title: 'Тёмная тема', text: 'Нажмите на иконку луны в шапке, чтобы переключиться на тёмную тему.'},
+      {title: 'Готово!', text: 'Приложение готово к использованию. Удачи в первый рабочий день!'}
+    ];
+    
+    let currentTourStep = 0;
+    const tourOverlay = document.getElementById('tourOverlay');
+    const tourTitle = document.getElementById('tourTitle');
+    const tourText = document.getElementById('tourText');
+    const tourDots = document.getElementById('tourDots');
+    const tourNext = document.getElementById('tourNext');
+    const tourSkip = document.getElementById('tourSkip');
+    const tourBtn = document.getElementById('tourBtn');
+
+    function showTourStep(step) {
+      tourTitle.textContent = tourSteps[step].title;
+      tourText.textContent = tourSteps[step].text;
+      tourDots.innerHTML = tourSteps.map((_, i) => `<div class="tour-dot ${i === step ? 'active' : ''}"></div>`).join('');
+    }
+
+    tourBtn.onclick = () => {
+      tourOverlay.classList.add('active');
+      currentTourStep = 0;
+      showTourStep(0);
+    };
+
+    tourNext.onclick = () => {
+      currentTourStep++;
+      if (currentTourStep < tourSteps.length) {
+        showTourStep(currentTourStep);
+      } else {
+        tourOverlay.classList.remove('active');
+        localStorage.setItem('tourCompleted', 'true');
+      }
+    };
+
+    tourSkip.onclick = () => {
+      tourOverlay.classList.remove('active');
+      localStorage.setItem('tourCompleted', 'true');
+    };
+
+    if (!localStorage.getItem('tourCompleted')) {
+      setTimeout(() => {
+        tourOverlay.classList.add('active');
+        showTourStep(0);
+      }, 1000);
+    }
+
+    // ACHIEVEMENT POPUP
+    let lastAchievement = 0;
+    function showAchievement(title, text) {
+      document.getElementById('achievementTitle').textContent = title;
+      document.getElementById('achievementText').textContent = text;
+      const popup = document.getElementById('achievementPopup');
+      popup.classList.add('show');
+      setTimeout(() => popup.classList.remove('show'), 3000);
+    }
+
+    let prevDone = 0;
+    function checkAchievements() {
+      const steps = DIRECTORATES[currentDir].steps;
+      const conds = getConditions();
+      const visible = steps.filter(s => !s.c || conds[s.c]);
+      const done = visible.filter((_, i) => checkedState[steps.indexOf(_)]).length;
+      
+      if (done > prevDone) {
+        if (done === 5) showAchievement('🎯 Первый рубеж!', 'Вы выполнили 5 шагов');
+        else if (done === 10) showAchievement('🔥 Полпути!', '10 шагов позади');
+        else if (done === 20) showAchievement('⭐ Почти финиш!', 'Ещё немного!');
+        else if (done === visible.length && visible.length > 0) {
+          showAchievement('🏆 Поздравляем!', 'Все шаги выполнены!');
+          fireConfetti();
+        }
+      }
+      prevDone = done;
+      checkAchievements();
+    }
+
+    // INIT
     loadState();
   </script>
 </body>
