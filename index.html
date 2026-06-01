@@ -2,81 +2,230 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#1a56db">
-  <title>🏭 Адаптация на заводе</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Адаптация сотрудника</title>
   <style>
-    :root { --primary: #1a56db; --bg: #f5f7fa; --card: #fff; --text: #1f2937; }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding-bottom: 80px; }
-    header { background: var(--primary); color: #fff; padding: 16px; text-align: center; position: sticky; top: 0; }
-    h1 { font-size: 1.25rem; }
-    .search { margin: 12px 16px; }
-    .search input { width: 100%; padding: 12px; border: 1px solid #d1d5db; border-radius: 12px; font-size: 1rem; }
-    .tabs { display: flex; gap: 8px; overflow-x: auto; padding: 12px 16px; background: #fff; }
-    .tab { padding: 8px 12px; background: #e5e7eb; border-radius: 20px; font-size: 0.9rem; white-space: nowrap; cursor: pointer; flex-shrink: 0; }
-    .tab.active { background: var(--primary); color: #fff; }
-    main { padding: 16px; }
-    .card { background: var(--card); border-radius: 12px; padding: 16px; margin-bottom: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-    .card h3 { margin-bottom: 8px; color: var(--primary); }
-    .info { margin: 6px 0; font-size: 0.95rem; line-height: 1.5; }
-    .info b { color: #374151; }
-    .hint { background: #dbeafe; padding: 12px; margin: 12px 16px; border-radius: 8px; font-size: 0.9rem; text-align: center; }
+    :root { --primary: #2563eb; --primary-light: #dbeafe; --bg: #f8fafc; --card: #fff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --success: #16a34a; --radius: 12px; --shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background: var(--bg); color: var(--text); padding-bottom: 40px; }
+    header { background: var(--primary); color: #fff; padding: 20px 16px 16px; text-align: center; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 8px rgba(37,99,235,0.2); }
+    header h1 { font-size: 1.3rem; font-weight: 600; margin-bottom: 4px; }
+    header p { font-size: 0.9rem; opacity: 0.9; }
+    main { padding: 16px; max-width: 600px; margin: 0 auto; }
+    .card { background: var(--card); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; box-shadow: var(--shadow); }
+    select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; background: #fff; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; cursor: pointer; margin-bottom: 12px; }
+    .toggles { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+    .toggle-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: var(--primary-light); border-radius: 8px; cursor: pointer; }
+    .toggle-row input { width: 18px; height: 18px; accent-color: var(--primary); }
+    .toggle-row span { font-size: 0.9rem; font-weight: 500; color: var(--primary); }
+    .progress-bar { height: 6px; background: var(--border); border-radius: 3px; margin: 12px 0 6px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--success); width: 0%; transition: width 0.3s ease; }
+    .progress-text { font-size: 0.8rem; color: var(--muted); text-align: right; margin-bottom: 8px; }
+    .step-list { list-style: none; }
+    .step-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+    .step-item:last-child { border-bottom: none; }
+    .checkbox { width: 24px; height: 24px; border: 2px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; margin-top: 2px; transition: all 0.2s; }
+    .step-item.completed .checkbox { background: var(--success); border-color: var(--success); }
+    .step-item.completed .checkbox::after { content: "✓"; color: #fff; font-weight: bold; font-size: 14px; }
+    .step-item.completed .step-text { color: var(--muted); text-decoration: line-through; }
+    .step-text { font-size: 0.95rem; line-height: 1.5; }
+    .step-num { font-weight: 600; color: var(--primary); margin-right: 4px; min-width: 24px; display: inline-block; }
+    .actions { display: flex; gap: 10px; margin-top: 16px; }
+    .btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: opacity 0.2s; }
+    .btn:active { opacity: 0.8; }
+    .btn-reset { background: #fee2e2; color: #dc2626; }
+    .hint { font-size: 0.8rem; color: var(--muted); text-align: center; margin-top: 16px; line-height: 1.4; }
   </style>
 </head>
 <body>
-  <header><h1>👋 Добро пожаловать на завод</h1></header>
-  <div class="hint">📲 Чтобы добавить на главный экран: меню браузера → "Добавить на главный экран"</div>
-  <div class="search"><input type="text" id="search" placeholder="🔍 Поиск: столовая, медпункт..."></div>
-  <nav class="tabs" id="tabs"></nav>
-  <main id="content"></main>
+  <header>
+    <h1>🏭 Адаптация сотрудника</h1>
+    <p>Пошаговый чек-лист трудоустройства</p>
+  </header>
+
+  <main>
+    <div class="card">
+      <select id="dirSelect"></select>
+      
+      <div class="toggles">
+        <label class="toggle-row"><input type="checkbox" id="tog-trainee"><span>📜 Есть ученический договор (п. 16)</span></label>
+        <label class="toggle-row"><input type="checkbox" id="tog-piecework"><span>⚙️ Сдельная оплата труда (п. 18)</span></label>
+        <label class="toggle-row"><input type="checkbox" id="tog-military"><span>🪖 Военнообязанный / призывник (п. 19/17)</span></label>
+      </div>
+
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-text" id="progressText">Выполнено: 0 / 0</div>
+
+      <ul class="step-list" id="stepList"></ul>
+
+      <div class="actions">
+        <button class="btn btn-reset" id="resetBtn">🔄 Сбросить прогресс</button>
+      </div>
+    </div>
+    <p class="hint"> Галочки сохраняются на устройстве. Для установки на телефон: меню Chrome → «Добавить на главный экран».</p>
+  </main>
 
   <script>
-    const DATA = [
-      { id: "food", title: "🍽 Столовые", items: [
-        { label: "Адрес", value: "Корпус А, 1 этаж / Корпус В, цоколь" },
-        { label: "Часы", value: "07:00–19:00 (обед 12:00–14:00)" },
-        { label: "Примечание", value: "Обед по талонам. Вегетарианское меню — по запросу за 2 дня." }
-      ]},
-      { id: "med", title: "🏥 Медпункт", items: [
-        { label: "Адрес", value: "Административный корпус, 2 этаж, каб. 204" },
-        { label: "Часы", value: "08:00–17:00 (Пн–Пт)" },
-        { label: "Примечание", value: "При травмах/ожогах — 112 или внутренний 200. Аптечка в каждом цеху." }
-      ]},
-      { id: "uniform", title: "👔 Спецодежда и СИЗ", items: [
-        { label: "Адрес", value: "Склад №3, рядом с проходной" },
-        { label: "Часы", value: "09:00–16:00" },
-        { label: "Примечание", value: "Возьмите паспорт и направление от мастера. Размер подбирается на месте." }
-      ]},
-      { id: "hr", title: "📋 Оформление и документы", items: [
-        { label: "Адрес", value: "Отдел кадров, каб. 110" },
-        { label: "Часы", value: "09:00–18:00" },
-        { label: "Примечание", value: "Паспорт, СНИЛС, ИНН, трудовую. Пропуск оформляется в день прихода." }
-      ]},
-      { id: "emergency", title: "🆘 Экстренные контакты", items: [
-        { label: "Служба безопасности", value: "вн. 100" },
-        { label: "Мастер смены", value: "вн. 105" },
-        { label: "Пожарная / Скорая", value: "101 / 112" },
-        { label: "HR-координатор", value: "вн. 150" }
-      ]}
+    //  ДАННЫЕ. Номер в начале текста убран, JS расставит его автоматически.
+    // Условные шаги помечены свойством cond: 'trainee' | 'piecework' | 'military'
+    const STEPS_PROD = [
+      {t:"Напишите заявление для трудоустройства: для подразделений 104, 266, 267 – каб.222 (свечка администрации). Для производственных подразделений у специалиста по кадрам в цехе;", c:null},
+      {t:"Подпишите заявление у руководителя подразделения и директора по производству;", c:null},
+      {t:"Получите направление на мед. комиссию в каб. 105;", c:null},
+      {t:"Оставьте заявление для дальнейшего согласования в каб.105;", c:null},
+      {t:"Пройдите медицинскую комиссию в специализированном учреждении по адресу: г. Новочеркасск, ул. Просвещения 108;", c:null},
+      {t:"После прохождения медицинского осмотра и согласования заявления о приеме на работу необходимо вернуться на завод в каб. 105;", c:null},
+      {t:"Внесите в базу данных сведения о работнике в каб.118;", c:null},
+      {t:"Получите пакет документов у специалиста по кадрам в т.ч. для прохождения инструктажей (см. п.1);", c:null},
+      {t:"Посетите медицинского работника в каб.105;", c:null},
+      {t:"Посетите инструктаж по охране труда каб. 440 (свечка администрации);", c:null},
+      {t:"Посетите инструктаж по ГО и ЧС каб. 665 (свечка администрации);", c:null},
+      {t:"Посетите инструктаж по противопожарной безопасности (цех. 56, 2-й этаж);", c:null},
+      {t:"Посетите службу безопасности в каб. 554;", c:null},
+      {t:"Посетите профсоюзную организацию в каб. 122;", c:null},
+      {t:"Предоставьте банковские реквизитов для перечисления заработной платы в каб. 552;", c:null},
+      {t:"*Проставление реквизитов в ученическом договоре в каб. 105;", c:"trainee"},
+      {t:"Познакомьтесь со службой внутренних коммуникаций в каб. 663А;", c:null},
+      {t:"* Для специалистов, оформляющихся на сдельную оплату труда пройти в цех, в каб. «Нормировщики»;", c:"piecework"},
+      {t:"* Для военнообязанных и призывников посещение каб. 118;", c:"military"},
+      {t:"Посетите УКиЛиОР в каб. 128;", c:null},
+      {t:"Посетите руководителя подразделения для определения даты выхода на работу и подписания приложения к приемным документам;", c:null},
+      {t:"Сдайте весь пакет документов в каб. 118 и получите документы для заполнения личного дела и автобиографии;", c:null},
+      {t:"Получите заявку для активации пропуска в каб.118;", c:null},
+      {t:"Посетите инструктаж принятых работников в каб. 105;", c:null},
+      {t:"Посетите «Бюро пропусков» на центральной проходной ООО «ПК «НЭВЗ» для получения пропуска;", c:null},
+      {t:"Выход на работу.", c:null}
     ];
 
-    let activeTab = 0;
-    const render = () => {
-      document.getElementById('tabs').innerHTML = DATA.map((d, i) => 
-        `<div class="tab ${i === activeTab ? 'active' : ''}" onclick="activeTab=${i};render()">${d.title}</div>`
-      ).join('');
-      const q = document.getElementById('search').value.toLowerCase();
-      const tab = DATA[activeTab];
-      const filtered = tab.items.filter(it => it.label.toLowerCase().includes(q) || it.value.toLowerCase().includes(q));
-      document.getElementById('content').innerHTML = filtered.length === 0 
-        ? '<div style="text-align:center;color:#6b7280;padding:40px 0;">Ничего не найдено</div>'
-        : `<div class="card"><h3>${tab.title}</h3>${filtered.map(it => 
-            `<div class="info"><b>${it.label}:</b> ${it.value}</div>`
-          ).join('')}</div>`;
+    const STEPS_OTHER = [
+      {t:"Напишите заявление для трудоустройства: для подразделений 104, 266, 267 – каб.222 (свечка администрации). Для производственных подразделений у специалиста по кадрам в цехе;", c:null},
+      {t:"Подпишите заявление у руководителя подразделения;", c:null},
+      {t:"Получите направление на мед. комиссию в каб. 105;", c:null},
+      {t:"Оставьте заявление для дальнейшего согласования в каб.105;", c:null},
+      {t:"Пройдите медицинскую комиссию в специализированном учреждении по адресу: г. Новочеркасск, ул. Просвещения 108;", c:null},
+      {t:"После прохождения медицинского осмотра и согласования заявления о приеме на работу необходимо вернуться на завод в каб. 105;", c:null},
+      {t:"Внесите в базу данных сведений о работнике в каб.118;", c:null},
+      {t:"Получите пакет документов у специалиста по кадрам в т.ч. для прохождения инструктажей;", c:null},
+      {t:"Посетите медицинского работника в каб.105;", c:null},
+      {t:"Посетите инструктаж по охране труда каб. 440 (свечка администрации);", c:null},
+      {t:"Посетите инструктаж по ГО и ЧС каб. 665 (свечка администрации);", c:null},
+      {t:"Посетите инструктаж по противопожарной безопасности (цех. 56, 2-й этаж);", c:null},
+      {t:"Посетите службу безопасности в каб. 554;", c:null},
+      {t:"Посетите профсоюзную организацию в каб. 122;", c:null},
+      {t:"Предоставьте банковские реквизиты для перечисления заработной платы в каб. 552;", c:null},
+      {t:"Познакомьтесь со службой внутренних коммуникаций в каб. 663А;", c:null},
+      {t:"* Для военнообязанных и призывников посещение каб. 118;", c:"military"},
+      {t:"Посетите УКиЛиОР в каб. 128;", c:null},
+      {t:"Посетите руководителя подразделения для определения даты выхода на работу и подписания приложения к приемным документам;", c:null},
+      {t:"Сдайте весь пакет документов в каб. 118 и получите документы для заполнения личного дела и автобиографии;", c:null},
+      {t:"Получите заявку для активации пропуска в каб.118;", c:null},
+      {t:"Посетите инструктаж принятых работников в каб. 105;", c:null},
+      {t:"Посетите «Бюро пропусков» на центральной проходной ООО «ПК «НЭВЗ» для получения пропуска;", c:null},
+      {t:"Выход на работу.", c:null}
+    ];
+
+    const DIRECTORATES = {
+      prod: { name: "Дирекция по производству", steps: STEPS_PROD },
+      tech: { name: "Техническая дирекция", steps: STEPS_OTHER },
+      ops: { name: "Дирекция по эксплуатации и безопасности производственной деятельности", steps: STEPS_OTHER },
+      quality: { name: "Дирекция по развитию производственной системы и качеству", steps: STEPS_OTHER },
+      comm: { name: "Коммерческая дирекция", steps: STEPS_OTHER },
+      fin: { name: "Дирекция по экономике и финансам", steps: STEPS_OTHER },
+      hr: { name: "Дирекция по управлению персоналом и трансформации", steps: STEPS_OTHER },
+      sec: { name: "Дирекция по безопасности и защите информации", steps: STEPS_OTHER }
     };
-    document.getElementById('search').oninput = render;
-    render();
+
+    let currentDir = 'prod';
+    let checkedState = {};
+    const dirSelect = document.getElementById('dirSelect');
+    const stepList = document.getElementById('stepList');
+    const progressFill = document.getElementById('progressFill');
+    const progressText = document.getElementById('progressText');
+    const togTrainee = document.getElementById('tog-trainee');
+    const togPiecework = document.getElementById('tog-piecework');
+    const togMilitary = document.getElementById('tog-military');
+    const resetBtn = document.getElementById('resetBtn');
+
+    // Заполняем селект
+    Object.entries(DIRECTORATES).forEach(([key, val]) => {
+      const opt = document.createElement('option');
+      opt.value = key; opt.textContent = val.name;
+      dirSelect.appendChild(opt);
+    });
+
+    function getConditions() {
+      return {
+        trainee: togTrainee.checked,
+        piecework: togPiecework.checked,
+        military: togMilitary.checked
+      };
+    }
+
+    function loadState() {
+      const saved = localStorage.getItem(`check_${currentDir}`);
+      checkedState = saved ? JSON.parse(saved) : {};
+      const conds = JSON.parse(localStorage.getItem(`conds_${currentDir}`) || '{}');
+      togTrainee.checked = conds.trainee || false;
+      togPiecework.checked = conds.piecework || false;
+      togMilitary.checked = conds.military || false;
+      render();
+    }
+
+    function saveState() {
+      localStorage.setItem(`check_${currentDir}`, JSON.stringify(checkedState));
+      localStorage.setItem(`conds_${currentDir}`, JSON.stringify(getConditions()));
+      updateProgress();
+    }
+
+    function updateProgress() {
+      const steps = DIRECTORATES[currentDir].steps;
+      const conds = getConditions();
+      const visible = steps.filter(s => !s.c || conds[s.c]);
+      const done = visible.filter((_, i) => checkedState[steps.indexOf(_)]).length;
+      progressFill.style.width = `${visible.length ? (done/visible.length)*100 : 0}%`;
+      progressText.textContent = `Выполнено: ${done} / ${visible.length}`;
+    }
+
+    function render() {
+      stepList.innerHTML = '';
+      const steps = DIRECTORATES[currentDir].steps;
+      const conds = getConditions();
+      let num = 1;
+
+      steps.forEach((step, origIdx) => {
+        if (step.c && !conds[step.c]) return; // Скрываем условный шаг
+        
+        const li = document.createElement('li');
+        li.className = `step-item ${checkedState[origIdx] ? 'completed' : ''}`;
+        li.innerHTML = `
+          <div class="checkbox" data-idx="${origIdx}"></div>
+          <div class="step-text"><span class="step-num">${num}.</span>${step.t.replace(/^\*\s*/, '')}</div>
+        `;
+        stepList.appendChild(li);
+        num++;
+      });
+
+      document.querySelectorAll('.checkbox').forEach(el => {
+        el.onclick = () => {
+          const idx = parseInt(el.dataset.idx);
+          checkedState[idx] = !checkedState[idx];
+          saveState();
+          render();
+        };
+      });
+      updateProgress();
+    }
+
+    dirSelect.onchange = e => { currentDir = e.target.value; loadState(); };
+    [togTrainee, togPiecework, togMilitary].forEach(t => t.onchange = () => { saveState(); render(); });
+    resetBtn.onclick = () => {
+      if(confirm('Сбросить прогресс для этой дирекции?')) { checkedState = {}; saveState(); render(); }
+    };
+
+    loadState();
   </script>
 </body>
-</html>
+</html>м
