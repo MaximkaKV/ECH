@@ -3,74 +3,313 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#2563eb">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>Адаптация сотрудника</title>
+  <meta name="theme-color" content="#0ea5e9">
+  <title>Адаптация — Электротех</title>
   <style>
-    :root { --primary: #2563eb; --primary-light: #dbeafe; --bg: #f8fafc; --card: #fff; --text: #0f172a; --muted: #64748b; --border: #e2e8f0; --success: #16a34a; --radius: 12px; --shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    :root {
+      --primary: #0ea5e9;
+      --primary-dark: #0284c7;
+      --primary-light: #e0f2fe;
+      --bg: #f0f9ff;
+      --card: #ffffff;
+      --text: #0c4a6e;
+      --text-muted: #64748b;
+      --border: #bae6fd;
+      --success: #10b981;
+      --radius: 14px;
+      --shadow: 0 4px 12px rgba(14, 165, 233, 0.08);
+      --shadow-sm: 0 2px 6px rgba(14, 165, 233, 0.05);
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-    body { background: var(--bg); color: var(--text); padding-bottom: 40px; }
-    header { background: var(--primary); color: #fff; padding: 20px 16px 16px; text-align: center; position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 8px rgba(37,99,235,0.2); }
-    header h1 { font-size: 1.3rem; font-weight: 600; margin-bottom: 4px; }
-    header p { font-size: 0.9rem; opacity: 0.9; }
-    main { padding: 16px; max-width: 600px; margin: 0 auto; }
-    .card { background: var(--card); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; box-shadow: var(--shadow); }
-    select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; background: #fff; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; cursor: pointer; margin-bottom: 12px; }
-    .toggles { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
-    .toggle-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: var(--primary-light); border-radius: 8px; cursor: pointer; }
-    .toggle-row input { width: 18px; height: 18px; accent-color: var(--primary); }
-    .toggle-row span { font-size: 0.9rem; font-weight: 500; color: var(--primary); }
-    .progress-bar { height: 6px; background: var(--border); border-radius: 3px; margin: 12px 0 6px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--success); width: 0%; transition: width 0.3s ease; }
-    .progress-text { font-size: 0.8rem; color: var(--muted); text-align: right; margin-bottom: 8px; }
+    body { background: var(--bg); color: var(--text); padding-bottom: 40px; min-height: 100vh; }
+    
+    /* HEADER */
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: #fff;
+      padding: 28px 16px 24px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 4px 16px rgba(14, 165, 233, 0.25);
+    }
+    header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 6px; letter-spacing: -0.02em; }
+    header p { font-size: 0.95rem; opacity: 0.92; font-weight: 400; }
+
+    /* NAVIGATION */
+    .nav {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      overflow-x: auto;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 88px;
+      z-index: 15;
+      -webkit-overflow-scrolling: touch;
+    }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav-btn {
+      padding: 10px 14px;
+      border: none;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .nav-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+    }
+
+    /* CONTENT */
+    main { padding: 16px; max-width: 640px; margin: 0 auto; }
+    .section { display: none; animation: fadeIn 0.3s ease; }
+    .section.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-title .icon { font-size: 1.3rem; }
+
+    /* SELECT & TOGGLES */
+    select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 1rem;
+      background: #fff;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%230ea5e9' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 5.646a.5.5 0 0 1 .708 0L8 8.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      cursor: pointer;
+      margin-bottom: 12px;
+    }
+    .toggles { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .toggle-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      background: var(--primary-light);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle-row:hover { background: #caf0f8; }
+    .toggle-row input { width: 20px; height: 20px; accent-color: var(--primary); cursor: pointer; }
+    .toggle-row span { font-size: 0.92rem; font-weight: 500; color: var(--primary-dark); }
+
+    /* PROGRESS */
+    .progress-wrap { margin: 12px 0 16px; }
+    .progress-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--success), #34d399); width: 0%; transition: width 0.4s ease; border-radius: 4px; }
+    .progress-text { font-size: 0.82rem; color: var(--text-muted); text-align: right; margin-top: 6px; font-weight: 500; }
+
+    /* STEPS */
     .step-list { list-style: none; }
-    .step-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); align-items: flex-start; }
+    .step-item {
+      display: flex; gap: 12px; padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+      transition: background 0.2s;
+    }
     .step-item:last-child { border-bottom: none; }
-    .checkbox { width: 24px; height: 24px; border: 2px solid var(--border); border-radius: 6px; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; margin-top: 2px; transition: all 0.2s; }
+    .step-item:hover { background: #f8fafc; border-radius: 8px; padding-left: 4px; padding-right: 4px; }
+    .checkbox {
+      width: 26px; height: 26px; border: 2px solid var(--border);
+      border-radius: 7px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0; margin-top: 2px; transition: all 0.2s;
+      background: #fff;
+    }
     .step-item.completed .checkbox { background: var(--success); border-color: var(--success); }
-    .step-item.completed .checkbox::after { content: "✓"; color: #fff; font-weight: bold; font-size: 14px; }
-    .step-item.completed .step-text { color: var(--muted); text-decoration: line-through; }
-    .step-text { font-size: 0.95rem; line-height: 1.5; }
-    .step-num { font-weight: 600; color: var(--primary); margin-right: 4px; min-width: 24px; display: inline-block; }
+    .step-item.completed .checkbox::after { content: "✓"; color: #fff; font-weight: bold; font-size: 15px; }
+    .step-item.completed .step-text { color: var(--text-muted); text-decoration: line-through; opacity: 0.85; }
+    .step-text { font-size: 0.95rem; line-height: 1.55; }
+    .step-num { font-weight: 700; color: var(--primary); margin-right: 4px; min-width: 22px; display: inline-block; }
+
+    /* LISTS */
+    .info-list { list-style: none; }
+    .info-list li {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .info-list li:last-child { border-bottom: none; }
+    .info-list li::before { content: "•"; color: var(--primary); font-weight: bold; font-size: 1.2rem; line-height: 1.2; flex-shrink: 0; }
+    .info-list.numbered li::before { content: counter(item); color: var(--primary); font-weight: 700; font-size: 0.95rem; min-width: 20px; }
+    .info-list.numbered { counter-reset: item; }
+    .info-list.numbered li { counter-increment: item; }
+
+    .location-card {
+      background: var(--primary-light);
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 10px;
+      border-left: 4px solid var(--primary);
+    }
+    .location-card strong { color: var(--primary-dark); display: block; margin-bottom: 4px; }
+
+    /* BUTTONS */
     .actions { display: flex; gap: 10px; margin-top: 16px; }
-    .btn { flex: 1; padding: 12px; border: none; border-radius: 8px; font-size: 0.95rem; font-weight: 500; cursor: pointer; transition: opacity 0.2s; }
-    .btn:active { opacity: 0.8; }
+    .btn {
+      flex: 1; padding: 12px; border: none; border-radius: 10px;
+      font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    }
+    .btn:active { transform: scale(0.98); }
     .btn-reset { background: #fee2e2; color: #dc2626; }
-    .hint { font-size: 0.8rem; color: var(--muted); text-align: center; margin-top: 16px; line-height: 1.4; }
+    .btn-reset:hover { background: #fecaca; }
+
+    .hint { font-size: 0.82rem; color: var(--text-muted); text-align: center; margin-top: 20px; line-height: 1.5; }
+    .badge {
+      display: inline-block; background: var(--primary); color: #fff;
+      font-size: 0.75rem; padding: 2px 8px; border-radius: 12px; margin-left: 8px; vertical-align: middle;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>🏭 Адаптация сотрудника</h1>
-    <p>Пошаговый чек-лист трудоустройства</p>
+    <h1>👋 Добро пожаловать в Электротех</h1>
+    <p>Ваш цифровой помощник для быстрой адаптации</p>
   </header>
 
+  <nav class="nav">
+    <button class="nav-btn active" data-section="onboarding">📋 Устройство на работу</button>
+    <button class="nav-btn" data-section="docs"> Документы</button>
+    <button class="nav-btn" data-section="union"> Профсоюз</button>
+    <button class="nav-btn" data-section="canteen">🍽 Столовые</button>
+    <button class="nav-btn" data-section="social"> Социальная сфера</button>
+  </nav>
+
   <main>
-    <div class="card">
-      <select id="dirSelect"></select>
-      
-      <div class="toggles">
-        <label class="toggle-row"><input type="checkbox" id="tog-trainee"><span>📜 Есть ученический договор (п. 16)</span></label>
-        <label class="toggle-row"><input type="checkbox" id="tog-piecework"><span>⚙️ Сдельная оплата труда (п. 18)</span></label>
-        <label class="toggle-row"><input type="checkbox" id="tog-military"><span>🪖 Военнообязанный / призывник (п. 19/17)</span></label>
+    <!-- РАЗДЕЛ 1: УСТРОЙСТВО НА РАБОТУ -->
+    <section id="onboarding" class="section active">
+      <div class="card">
+        <div class="card-title"><span class="icon"></span> Пошаговый чек-лист трудоустройства</div>
+        <select id="dirSelect"></select>
+        
+        <div class="toggles">
+          <label class="toggle-row"><input type="checkbox" id="tog-trainee"><span>📜 Есть ученический договор (п. 16)</span></label>
+          <label class="toggle-row"><input type="checkbox" id="tog-piecework"><span>⚙️ Сдельная оплата труда (п. 18)</span></label>
+          <label class="toggle-row"><input type="checkbox" id="tog-military"><span>🪖 Военнообязанный / призывник (п. 19/17)</span></label>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+          <div class="progress-text" id="progressText">Выполнено: 0 / 0</div>
+        </div>
+
+        <ul class="step-list" id="stepList"></ul>
+
+        <div class="actions">
+          <button class="btn btn-reset" id="resetBtn">🔄 Сбросить прогресс</button>
+        </div>
       </div>
+    </section>
 
-      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-      <div class="progress-text" id="progressText">Выполнено: 0 / 0</div>
-
-      <ul class="step-list" id="stepList"></ul>
-
-      <div class="actions">
-        <button class="btn btn-reset" id="resetBtn">🔄 Сбросить прогресс</button>
+    <!-- РАЗДЕЛ 2: ДОКУМЕНТЫ -->
+    <section id="docs" class="section">
+      <div class="card">
+        <div class="card-title"><span class="icon">📄</span> Документы для трудоустройства</div>
+        <ul class="info-list">
+          <li>Паспорт</li>
+          <li>СНИЛС</li>
+          <li>ИНН</li>
+          <li>Трудовая книжка</li>
+          <li>Диплом об образовании</li>
+          <li>Военный билет (для военнообязанных)</li>
+          <li>Реквизиты банковского счёта</li>
+          <li>Флюорография или результаты медосмотра</li>
+          <li>Фото 3×4 — 2 шт.</li>
+        </ul>
+        <p class="hint">💡 Подготовьте документы заранее. Оригиналы сверяются на месте, копии остаются в личном деле.</p>
       </div>
-    </div>
-    <p class="hint"> Галочки сохраняются на устройстве. Для установки на телефон: меню Chrome → «Добавить на главный экран».</p>
+    </section>
+
+    <!-- РАЗДЕЛ 3: ПРОФСОЮЗ -->
+    <section id="union" class="section">
+      <div class="card">
+        <div class="card-title"><span class="icon">🤝</span> Профсоюзная организация</div>
+        <ul class="info-list numbered">
+          <li>Представительство и защита социально-трудовых прав</li>
+          <li>Организация культурно-массовых и спортивных мероприятий</li>
+          <li>Организация санаторно-курортного лечения</li>
+          <li>Оказание материальной помощи</li>
+          <li>Волонтёрские и благотворительные мероприятия</li>
+          <li>Корпоративные скидки у партнёров</li>
+        </ul>
+        <p class="hint"> Каб. 122, «Свечка» администрации. Вступительные взносы — 1% от зарплаты.</p>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 4: СТОЛОВЫЕ -->
+    <section id="canteen" class="section">
+      <div class="card">
+        <div class="card-title"><span class="icon">🍽</span> Столовые на территории завода</div>
+        <div class="location-card">
+          <strong> Столовая №1</strong>
+          10 цех, 2-й этаж
+        </div>
+        <div class="location-card">
+          <strong>🏢 Столовая №2</strong>
+          48 цех, 3-й этаж
+        </div>
+        <div class="location-card">
+          <strong>🏢 Столовая №3 (Административная)</strong>
+          За территорией, справа от «Заводоуправления» (2-й и 3-й этажи)
+        </div>
+        <p class="hint"> Режим работы: 07:00–19:00. Обед: 12:00–14:00. Оплата картой/наличными.</p>
+      </div>
+    </section>
+
+    <!-- РАЗДЕЛ 5: СОЦИАЛЬНАЯ СФЕРА -->
+    <section id="social" class="section">
+      <div class="card">
+        <div class="card-title"><span class="icon">🎉</span> Социальная сфера и льготы</div>
+        <ul class="info-list numbered">
+          <li>Санаторно-курортное лечение для сотрудников с вредными условиями труда и предпенсионного возраста (по результатам периодического осмотра)</li>
+          <li>Отдых на Черноморском побережье летом для работников и членов семей со скидкой 10 000 руб. каждому</li>
+          <li>Экскурсионные и корпоративные поездки по городам России (через Профсоюз)</li>
+          <li>Корпоративные мероприятия: День завода, 8 Марта, 23 Февраля, День семьи, любви и верности, День Машиностроителя, Новый год, соревнования по рыбной ловле, турслёты</li>
+          <li>Полная оплата тренажёрного зала, тренировок по настольному теннису, футболу, волейболу. Спортивные мероприятия с ценными призами</li>
+          <li>Билеты в театр, кино, на каток, в зоопарк, спа-комплексы со скидкой (Профсоюз)</li>
+          <li>Билеты на футбольные матчи со скидкой</li>
+          <li>Производственные соревнования с ценными призами</li>
+        </ul>
+        <p class="hint">📞 Вопросы по льготам: каб. 122 (Профсоюз) или отдел социальных программ.</p>
+      </div>
+    </section>
   </main>
 
   <script>
-    //  ДАННЫЕ. Номер в начале текста убран, JS расставит его автоматически.
-    // Условные шаги помечены свойством cond: 'trainee' | 'piecework' | 'military'
+    //  ДАННЫЕ: Устройство на работу
     const STEPS_PROD = [
       {t:"Напишите заявление для трудоустройства: для подразделений 104, 266, 267 – каб.222 (свечка администрации). Для производственных подразделений у специалиста по кадрам в цехе;", c:null},
       {t:"Подпишите заявление у руководителя подразделения и директора по производству;", c:null},
@@ -138,6 +377,19 @@
       sec: { name: "Дирекция по безопасности и защите информации", steps: STEPS_OTHER }
     };
 
+    // 🎨 Навигация
+    const navBtns = document.querySelectorAll('.nav-btn');
+    const sections = document.querySelectorAll('.section');
+    navBtns.forEach(btn => {
+      btn.onclick = () => {
+        navBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        sections.forEach(s => s.classList.remove('active'));
+        document.getElementById(btn.dataset.section).classList.add('active');
+      };
+    });
+
+    // 📋 Логика чек-листа
     let currentDir = 'prod';
     let checkedState = {};
     const dirSelect = document.getElementById('dirSelect');
@@ -149,7 +401,6 @@
     const togMilitary = document.getElementById('tog-military');
     const resetBtn = document.getElementById('resetBtn');
 
-    // Заполняем селект
     Object.entries(DIRECTORATES).forEach(([key, val]) => {
       const opt = document.createElement('option');
       opt.value = key; opt.textContent = val.name;
@@ -157,11 +408,7 @@
     });
 
     function getConditions() {
-      return {
-        trainee: togTrainee.checked,
-        piecework: togPiecework.checked,
-        military: togMilitary.checked
-      };
+      return { trainee: togTrainee.checked, piecework: togPiecework.checked, military: togMilitary.checked };
     }
 
     function loadState() {
@@ -196,8 +443,7 @@
       let num = 1;
 
       steps.forEach((step, origIdx) => {
-        if (step.c && !conds[step.c]) return; // Скрываем условный шаг
-        
+        if (step.c && !conds[step.c]) return;
         const li = document.createElement('li');
         li.className = `step-item ${checkedState[origIdx] ? 'completed' : ''}`;
         li.innerHTML = `
@@ -228,4 +474,4 @@
     loadState();
   </script>
 </body>
-</html>м
+</html>
